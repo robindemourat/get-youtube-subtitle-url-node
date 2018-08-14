@@ -64,9 +64,11 @@ function getNonAutoSubs(videoId) {
         // console.log(results)
         var response = JSON.parse(results[0])
         var automatic_captions = response["requested_subtitles"]
-        var english_captions = automatic_captions["en"]
-        var english_captions_url = english_captions["url"]
-        resolve(english_captions_url);
+        var english_captions = automatic_captions["en"] || automatic_captions[Object.keys(automatic_captions)[0]];
+        if (english_captions) {
+          var english_captions_url = english_captions["url"];
+          resolve(english_captions_url);
+        } else reject();
       }
     });
   });
